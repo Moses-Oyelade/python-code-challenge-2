@@ -76,7 +76,7 @@ class Customer(Base):
         return highest_rating
     
     def add_review(self, restaurant, rating):
-        review = Review(restaurant = restaurant, star_rating=rating)
+        review = Review(restaurant = restaurant, rating=rating)
         session.add(review)
         session.commit()
         
@@ -109,3 +109,11 @@ engine = create_engine('sqlite:///restaurants.db', echo=True)
 Base.metadata.create_all(bind=engine)
 Session=sessionmaker(bind=engine)
 session = Session()
+
+# Insert Restaurant values
+snail_cafe = Restaurant(name="Snail Cafe", reg_number="AD34567", price=700)
+stainless = Restaurant(name="Stainless Food", reg_number="AB74564", price=500)
+kilmongaro = Restaurant(name="Kilmongaro", reg_number="RF45362", price=1000)
+dodo_pizza = Restaurant(name="Dodo Pizza", reg_number="QT63798", price=750)
+kings_bites = Restaurant(name="Kings Bites", reg_number="DD234157", price=5000)
+mr_lass_kitchen = Restaurant(name="Mr. Las Kitchen", reg_number="RC012895", price=3000)
