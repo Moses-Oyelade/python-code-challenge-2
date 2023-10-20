@@ -56,6 +56,11 @@ class Customer(Base):
         lastname= self.last_name
         return firstname + lastname
 
+    def favorite_restaurant(self):
+        for review in self.reviews:
+            highest_rating = session.query(review.rating).order_by(
+            review.rating).first()
+        return highest_rating
             
 class Review(Base):
     __tablename__ = 'reviews'
