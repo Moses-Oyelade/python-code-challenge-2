@@ -51,6 +51,10 @@ class Customer(Base):
             f'last_name={self.last_name}, ' +\
             f'gender={self.gender})'
     
+    def full_name(self):
+        firstname = self.first_name 
+        lastname= self.last_name
+        return firstname + lastname
 
             
 class Review(Base):
