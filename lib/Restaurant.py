@@ -61,6 +61,22 @@ class Customer(Base):
             highest_rating = session.query(review.rating).order_by(
             review.rating).first()
         return highest_rating
+    
+    def add_review(self, restaurant, rating):
+        review = Review(restaurant = restaurant, star_rating=rating)
+        session.add(review)
+        session.commit()
+        
+    def delete_reviews(restaurant):
+        remove_reviews = set()
+        for review in remove_reviews:
+            if review.restaurant == restaurant:
+                remove_reviews.append(review)
+        
+        for review in remove_reviews:
+            session.delete(review)
+            session.commit()
+    
             
 class Review(Base):
     __tablename__ = 'reviews'
@@ -70,7 +86,9 @@ class Review(Base):
     restaurant_id = Column(Integer(), ForeignKey('restaurants.id'))
     customer_id = Column(Integer(), ForeignKey('customers.id'))
     
-   
+    def full_review(self):
+        return f"Review for {self.restaurant.name} by {self.full_name()}: {self.rating} stars"
+
 
 
 
