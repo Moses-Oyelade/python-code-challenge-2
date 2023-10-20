@@ -7,7 +7,7 @@ from sqlalchemy_sandbox import Base, Student
 
 if __name__ == '__main__':
 
-    engine = create_engine('sqlite:///restaurants.db')
+    engine = create_engine('sqlite:///restaurant.db')
     Base.metadata.create_all(engine)
 
     Session = sessionmaker(bind=engine)

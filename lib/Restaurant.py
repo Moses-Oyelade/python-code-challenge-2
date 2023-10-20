@@ -1,4 +1,5 @@
-from sqlalchemy import String, Integer, create_engine, Column, ForeignKey, Table
+from sqlalchemy import String, Integer, Column, ForeignKey, Table
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
@@ -6,13 +7,13 @@ Base =declarative_base()
 
 
 
-rest_customer = Table(
-    'rest_customers',
-    Base.metadata,
-    Column('restaurant_id', ForeignKey('restaurant_id'), primary_key=True),
-    Column('customer_id', ForeignKey('customer_id'), primary_key=True),
-    extend_existing=True,
-)   
+# rest_customer = Table(
+#     'rest_customers',
+#     Base.metadata,
+#     Column('restaurant_id', ForeignKey('restaurant_id'), primary_key=True),
+#     Column('customer_id', ForeignKey('customer_id'), primary_key=True),
+#     extend_existing=True,
+# )   
 
 class Restaurant(Base):
     __tablename__ = 'restaurants'
@@ -24,7 +25,8 @@ class Restaurant(Base):
     
     
     reviews = relationship('Review', backref=backref('restaurant'))
-    customers =relationship('Customer', secondary =rest_customer, back_populates=('restaurants'))
+    customers =relationship('Customer', secondary ='review', back_populates=('restaurants'))
+    # customers =relationship('Customer', secondary =rest_customer, back_populates=('restaurants'))
     
     def __repr__(self):
         return f'Reataurant(id={self.id}: ' +\
@@ -56,7 +58,8 @@ class Customer(Base):
     gender = Column(String())
     
     reviews = relationship('Review', backref=backref('customer'))
-    restaurants =relationship('Restaurant', secondary =rest_customer, back_populates=('customers'))
+    restaurants =relationship('Restaurant', secondary ='review', back_populates=('customers'))
+    # restaurants =relationship('Restaurant', secondary =rest_customer, back_populates=('customers'))
     
     def __repr__(self):
         return f'Customer(id={self.id}: ' +\
@@ -105,10 +108,25 @@ class Review(Base):
 
 
 
-engine = create_engine('sqlite:///restaurants.db', echo=True)
+engine = create_engine('sqlite:///restaurant.db', echo=True)
 Base.metadata.create_all(bind=engine)
 Session=sessionmaker(bind=engine)
 session = Session()
+
+customer1 = Customer(first_name="Debby", last_name="Olu", gender= "F")
+customer2 = Customer(first_name="Sam", last_name="Okin", gender= "M")
+customer3 = Customer(first_name="Don", last_name="Kim", gender= "M")
+customer4 = Customer(first_name="Alfred", last_name="Ola", gender= "M")
+customer5 = Customer(first_name="Debby", last_name="Jones", gender= "F")
+
+session.add(customer1)
+session.add(customer2)
+session.add(customer3)
+session.add(customer4)
+session.add(customer5)
+
+session.commit()
+
 
 # Insert Restaurant values
 snail_cafe = Restaurant(name="Snail Cafe", reg_number="AD34567", price=700)
@@ -117,3 +135,16 @@ kilmongaro = Restaurant(name="Kilmongaro", reg_number="RF45362", price=1000)
 dodo_pizza = Restaurant(name="Dodo Pizza", reg_number="QT63798", price=750)
 kings_bites = Restaurant(name="Kings Bites", reg_number="DD234157", price=5000)
 mr_lass_kitchen = Restaurant(name="Mr. Las Kitchen", reg_number="RC012895", price=3000)
+
+# Add session data
+session.add(snail_cafe)
+session.add(stainless)
+session.add(kilmongaro)
+session.add(dodo_pizza)
+session.add(kings_bites)
+session.add(mr_lass_kitchen)
+
+session.commit()
+
+
+print(customer1.full_name())
