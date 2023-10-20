@@ -32,6 +32,19 @@ class Restaurant(Base):
             f'reg_number={self.reg_number}, ' +\
             f'price={self.price})'
    
+    @classmethod
+    def fanciest(cls):
+        return session.query(cls).order_by(cls.price.desc()).first()
+ 
+    def all_reviews(self):
+        review_collections = []
+        
+        for review in self.reviews:
+            customer_fullname = f"{review.customer.first_name} {review.customer.last_name}"
+            all_reviews = f"Review for {self.name} by {customer_fullname}: {review.star_rating} stars."
+            review_collections.append(all_reviews)
+            
+        return review_collections
     
 
 class Customer(Base):
