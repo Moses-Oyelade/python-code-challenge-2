@@ -11,8 +11,7 @@ You use git clone to be able to download the documents in the github
 Git
 ### Installation instruction
 ```
-Git clone https://github.com/Moses-Oyelade/phase-2-bot-battlr.git
-
+Git clone https://github.com/Moses-Oyelade/python-code-challenge-2.git
 ```
 # Live Link
 [Git]
@@ -30,4 +29,3 @@ Copyright (c) 2018.
 
 
 
-https://github.com/Moses-Oyelade/python-code-challenge-2.git
