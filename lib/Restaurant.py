@@ -74,17 +74,17 @@ class Customer(Base):
     def full_name(self):
         firstname = self.first_name 
         lastname= self.last_name
-        return firstname + lastname
+        return firstname + " " + lastname
 
     def favorite_restaurant(self):
         for review in self.reviews:
-            highest_rating = session.query(review.rating).order_by(
+            session.query(Restaurant.review).order_by(
             review.rating).first()
-        return highest_rating
+        return 
     
     def add_review(self, restaurant, rating):
-        review = Review(restaurant = restaurant, rating=rating)
-        session.add(review)
+        self.review = Review(restaurant = restaurant, rating=rating)
+        session.add(self.review)
         session.commit()
         
     def delete_reviews(restaurant):
@@ -111,14 +111,15 @@ class Review(Base):
 
     def __repr__(self):
         return f'Review(id={self.id}, ' + \
-            f'score={self.rating})'
+            f'rating={self.rating})'
 
 
 
-engine = create_engine('sqlite:///restaurant.db', echo=True)
-Base.metadata.create_all(bind=engine)
-Session=sessionmaker(bind=engine)
-session = Session()
+if __name__ == '__main__':
+    Base.metadata.create_all(engine)
+
+# There are a few methods/fucntion still under construction of Restaurant class, and customer class
+
 
 customer1 = Customer(first_name="Debby", last_name="Olu", gender= "F")
 customer2 = Customer(first_name="Sam", last_name="Okin", gender= "M")
@@ -126,11 +127,11 @@ customer3 = Customer(first_name="Don", last_name="Kim", gender= "M")
 customer4 = Customer(first_name="Alfred", last_name="Ola", gender= "M")
 customer5 = Customer(first_name="Debby", last_name="Jones", gender= "F")
 
-session.add(customer1)
-session.add(customer2)
-session.add(customer3)
-session.add(customer4)
-session.add(customer5)
+# session.add(customer1)
+# session.add(customer2)
+# session.add(customer3)
+# session.add(customer4)
+# session.add(customer5)
 
 session.commit()
 
@@ -153,10 +154,16 @@ mr_lass_kitchen = Restaurant(name="Mr. Las Kitchen", reg_number="RC012895", pric
 
 session.commit()
 
+
+review1 = Review()
+
+
+
+
 # Tsting Methods
 # print(customer1.full_name())
-print(customer3.favorite_restaurant())
-# print(customer2.add_review(restaurant="Kilmongaro", rating=5))
+# print(customer3.favorite_restaurant())
+print(customer2.add_review(restaurant="Kilmongaro", rating=5))
 
 # fanciest = Restaurant.fanciest()
 # print(f"{fanciest} is the fanciest restaurant")
